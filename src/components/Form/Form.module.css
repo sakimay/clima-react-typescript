@@ -20,6 +20,11 @@
     color: var(--white);
 }
 
+.form select option {
+    background-color: rgb(102, 102, 102);
+    color: var(--white);
+}
+
 .form input[type="submit"] {
     background-color: var(--primary);
     border: none;
