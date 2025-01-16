@@ -4,28 +4,15 @@ import { z } from "zod";
 // import { object, string, number, InferOutput, parse } from "valibot";
 
 //zod
-// const Weather = z.object({
-//     name: z.string(),
-//     main: z.object({
-//         temp: z.number(),
-//         temp_min: z.number(),
-//         temp_max: z.number()
-//     })
-// })
-//type Weather = z.infer<typeof Weather>
-
-//valibot
-// const WeatherSchema = object({
-//     name: string(),
-//     main: object({
-//         temp: number(),
-//         temp_min: number(),
-//         temp_max: number()
-//     })
-// })
-
-// type Weather = InferOutput<typeof WeatherSchema>
-
+const Weather = z.object({
+    name: z.string(),
+    main: z.object({
+        temp: z.number(),
+        temp_min: z.number(),
+        temp_max: z.number()
+    })
+})
+type Weather = z.infer<typeof Weather>
 
 export default function useWeather() {
 
@@ -41,18 +28,11 @@ export default function useWeather() {
             const { data: weatherResult } = await axios.get(weatherUrl)
 
             //ZOD
-            // const result = Weather.safeParse(weatherResult)
-            // if(result.success) {
-            //     console.log(result.data.name);
-            // }
+            const result = Weather.safeParse(weatherResult)
+            if(result.success) {
+                console.log(result.data.name);
+            }
 
-            //VALIBOT
-            // const result = parse(WeatherSchema, weatherResult)
-            // if (result) {
-            //     console.log(result.name);
-            // }else{
-            //     throw new Error("No se pudo obtener el clima");  
-            // }
             
         } catch (error) {
             console.error(error);
