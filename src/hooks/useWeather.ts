@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SearchType } from "../types";
 import { z } from "zod";
+import { useMemo, useState } from "react";
 // import { object, string, number, InferOutput, parse } from "valibot";
 
 //zod
@@ -12,9 +13,18 @@ const Weather = z.object({
         temp_max: z.number()
     })
 })
-type Weather = z.infer<typeof Weather>
+
+export type Weather = z.infer<typeof Weather>
 
 export default function useWeather() {
+    const [weather, setWeather] = useState<Weather>({
+        name: '',
+        main: {
+            temp: 0,
+            temp_min: 0,
+            temp_max: 0
+        }
+    })
 
     const fetchWeather = async (search: SearchType) => {
         const appId = import.meta.env.VITE_API_KEY
@@ -29,18 +39,22 @@ export default function useWeather() {
 
             //ZOD
             const result = Weather.safeParse(weatherResult)
-            if(result.success) {
-                console.log(result.data.name);
+            if (result.success) {
+                setWeather(result.data)
             }
 
-            
+
         } catch (error) {
             console.error(error);
 
         }
     }
 
+    const hasWeatherData = useMemo(() => weather.name !== '', [weather])
+
     return {
-        fetchWeather
+        weather,
+        fetchWeather,
+        hasWeatherData
     }
 }
