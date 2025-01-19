@@ -4,4 +4,11 @@
     text-transform: uppercase;
     font-weight: 900;
     font-size: 1.8rem;
+    margin-top: 5rem;
+}
+
+@media screen and (min-width: 768px) {
+    .alert{ 
+        margin-top: 0;
+    } 
 }
